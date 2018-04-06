@@ -1,0 +1,10 @@
+/Users/direccionrednacecyt/Documents/Git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.deps.json
+/Users/direccionrednacecyt/Documents/Git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.runtimeconfig.json
+/Users/direccionrednacecyt/Documents/Git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.runtimeconfig.dev.json
+/Users/direccionrednacecyt/Documents/Git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.dll
+/Users/direccionrednacecyt/Documents/Git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.pdb
+/Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.csproj.CoreCompileInputs.cache
+/Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfoInputs.cache
+/Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfo.cs
+/Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.dll
+/Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.pdb

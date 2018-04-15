@@ -79,19 +79,31 @@ namespace WEB_API.Controllers
         }
 
         // GET: Catalogo/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            var model = productos.LeerProducto(id);
+            ProductoEditarModelo edit = new ProductoEditarModelo();
+            edit.Codigo = model.Codigo;
+            edit.Descripcion = model.Descripcion;
+            edit.Categoria = model.Categoria;
+            edit.Precio = model.Precio;
+            return View(edit);
         }
 
         // POST: Catalogo/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, ProductoEditarModelo model)
         {
-            try
+            if(ModelState.IsValid){
+                try
             {
-                // TODO: Add update logic here
+                productos.actualizarDatos(new ProductoEntity(){
+                    Codigo = model.Codigo,
+                    Descripcion = model.Descripcion,
+                    Categoria = model.Categoria,
+                    Precio = model.Precio
+                });
 
                 return RedirectToAction(nameof(Index));
             }
@@ -99,23 +111,29 @@ namespace WEB_API.Controllers
             {
                 return View();
             }
+            }
+            return View();
         }
 
         // GET: Catalogo/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            var producto = productos.LeerProducto(id);
+            return View(new ProductoBorrarModelo(){
+                Codigo = producto.Codigo,
+                Descripcion = producto.Descripcion
+            });
         }
 
         // POST: Catalogo/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                productos.borrarProducto(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

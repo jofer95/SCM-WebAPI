@@ -13,7 +13,7 @@ namespace WEB_API.Controllers
         IProductosRepository productos;
         public CatalogoController()
         {
-            productos = new MemoryProductosRepository();
+            productos = new AzureProductosRepository ();
         }
         // GET: Catalogo
         public ActionResult Index()

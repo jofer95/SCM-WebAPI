@@ -10,7 +10,7 @@ namespace WEB_API
         private string azureConStr;
         public AzureProductosRepository()
         {
-            azureConStr = "@DefaultEndpointsProtocol=https;AccountName=s100ne2g2;AccountKey=Rr62TEFQHy4pnCbZypRae+rSD3e3kD7qE1WtqgMX7b6X2/UlVfKLGNnDkLDrDH+R/0tyiAJmfhbJZfDICZlUg==;EndpointSuffix=core.windows.net";
+            azureConStr = "DefaultEndpointsProtocol=https;AccountName=s100ne2g2;AccountKey=IRr62TEFQHy4pnCbZypRae+rSD3e3kD7qE1WtqgMX7b6X2/UlVfKLGNnDkLDrDH+R/0tyiAJmfhbJZfDICZlUg==";
         }
 
         public void actualizarDatos(ProductoEntity producto)
@@ -45,7 +45,7 @@ namespace WEB_API
             var azEn = new AzProductoEntity(nuevo.Codigo);
             azEn.Categoria = nuevo.Categoria;
             azEn.Descripcion = nuevo.Descripcion;
-            azEn.Precio = nuevo.Precio.ToString("C ");
+            azEn.Precio = nuevo.Precio.ToString();
             // Create the TableOperation object that inserts the customer entity.
             TableOperation insertOperation = TableOperation.Insert(azEn);
 

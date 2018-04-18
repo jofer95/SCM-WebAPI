@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.WindowsAzure.Storage; // Namespace for StorageAccounts
-using Microsoft.WindowsAzure.Storage.Table ;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace WEB_API
 {
@@ -50,7 +50,7 @@ namespace WEB_API
             TableOperation insertOperation = TableOperation.Insert(azEn);
 
             // Execute the insert operation.
-            var x =  table.ExecuteAsync(insertOperation).Result;
+            var x = table.ExecuteAsync(insertOperation).Result;
 
         }
 
@@ -66,7 +66,34 @@ namespace WEB_API
 
         public List<ProductoEntity> todosLosProductos()
         {
-            return new List<ProductoEntity>();
+            // Retrieve the storage account from the connection string.
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(azureConStr);
+
+            // Create the table client.
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+
+            // Retrieve a reference to the table.
+            CloudTable table = tableClient.GetTableReference("catalogo");
+
+            // Construct the query operation for all customer entities where PartitionKey="Smith".
+            TableQuery<AzProductoEntity> query = new TableQuery<AzProductoEntity>();
+            //.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "Smith"));
+
+            var token = new TableContinuationToken();
+            var list = new List<ProductoEntity>();
+            // Print the fields for each customer.
+            foreach (AzProductoEntity entity in table.ExecuteQuerySegmentedAsync(query, token).Result)
+            {
+                list.Add(new ProductoEntity(){
+                    Descripcion = entity.Descripcion,
+                    Categoria = entity.Categoria,
+                    Codigo = entity.Codigo,
+                    //Precio = Convert.ToDecimal(entity.Precio)
+                });
+                /*Console.WriteLine("{0}, {1}\t{2}\t{3}", entity.PartitionKey, entity.RowKey,
+                    entity.Email, entity.PhoneNumber);*/
+            }
+            return list;
         }
     }
 

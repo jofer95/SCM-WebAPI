@@ -28,8 +28,7 @@ namespace WEB_API
             throw new NotImplementedException();
         }
 
-        public void crearProducto(ProductoEntity nuevo)
-        {
+        private CloudTable TablaAzure(){
             // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(azureConStr);
 
@@ -38,7 +37,12 @@ namespace WEB_API
 
             // Retrieve a reference to the table.
             CloudTable table = tableClient.GetTableReference("catalogo");
+            return table;
+        }
 
+        public void crearProducto(ProductoEntity nuevo)
+        {            
+            var table = TablaAzure();
             // Create the table if it doesn't exist.
             var creada = table.CreateIfNotExistsAsync().Result;
 
@@ -56,7 +60,17 @@ namespace WEB_API
 
         public ProductoEntity LeerProducto(string codigo)
         {
-            return new ProductoEntity();
+            // Create a retrieve operation that takes a customer entity.
+            TableOperation retrieveOperation = TableOperation.Retrieve<CustomerEntity>("Smith", "Ben");
+
+            // Execute the retrieve operation.
+            TableResult retrievedResult = table.Execute(retrieveOperation);
+
+            // Print the phone number of the result.
+            if (retrievedResult.Result != null)
+            {
+                Console.WriteLine(((CustomerEntity)retrievedResult.Result).PhoneNumber);
+            }             
         }
 
         public List<ProductoEntity> productosPorCatalogo(string categoria)
@@ -66,14 +80,7 @@ namespace WEB_API
 
         public List<ProductoEntity> todosLosProductos()
         {
-            // Retrieve the storage account from the connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(azureConStr);
-
-            // Create the table client.
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-
-            // Retrieve a reference to the table.
-            CloudTable table = tableClient.GetTableReference("catalogo");
+            var table = TablaAzure();
 
             // Construct the query operation for all customer entities where PartitionKey="Smith".
             TableQuery<AzProductoEntity> query = new TableQuery<AzProductoEntity>();
@@ -84,7 +91,8 @@ namespace WEB_API
             // Print the fields for each customer.
             foreach (AzProductoEntity entity in table.ExecuteQuerySegmentedAsync(query, token).Result)
             {
-                list.Add(new ProductoEntity(){
+                list.Add(new ProductoEntity()
+                {
                     Descripcion = entity.Descripcion,
                     Categoria = entity.Categoria,
                     Codigo = entity.Codigo,

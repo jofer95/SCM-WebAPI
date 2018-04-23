@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 namespace WEB_API{
     public interface IProductosRepository
     {
-        List<ProductoEntity> todosLosProductos();
-        List<ProductoEntity> productosPorCatalogo(string categoria);
-        ProductoEntity LeerProducto(string codigo);
-        void crearProducto(ProductoEntity nuevo);
-        void actualizarDatos(ProductoEntity producto);
-        void actualizarImagen(ProductoEntity producto, object Imagen);
-        void borrarProducto(string codigo);
+        Task<List<ProductoEntity>> todosLosProductos();
+        Task<List<ProductoEntity>> productosPorCatalogo(string categoria);
+        Task<ProductoEntity> LeerProducto(string codigo);
+        Task<bool> crearProducto(ProductoEntity nuevo);
+        Task<bool> actualizarDatos(ProductoEntity producto);
+        Task<bool> actualizarImagen(ProductoEntity producto, object Imagen);
+        Task<bool> borrarProducto(string codigo);
     }
 
-    public class MemoryProductosRepository : IProductosRepository
+    public class MemoryProductosRepository //: IProductosRepository
     {
         private static List<ProductoEntity> db;
         static MemoryProductosRepository(){

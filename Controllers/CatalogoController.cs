@@ -13,18 +13,19 @@ namespace WEB_API.Controllers
         IProductosRepository productos;
         public CatalogoController()
         {
-            productos = new AzureProductosRepository ();
+            productos = new AzureProductosRepository();
         }
         // GET: Catalogo
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var model = productos.todosLosProductos()
-            .Select( p => new ProductoModel(){
-                    Codigo = p.Codigo,
-                    Descripcion = p.Descripcion,
-                    Categoria = p.Categoria,
-                    Precio = p.Precio
-                });
+            var model = (await productos.todosLosProductos())
+            .Select(p => new ProductoModel()
+            {
+                Codigo = p.Codigo,
+                Descripcion = p.Descripcion,
+                Categoria = p.Categoria,
+                Precio = p.Precio
+            });
             /*var model = new List<ProductoModel>();
             model.Add(new ProductoModel(){
                 Descripcion = "producto",
@@ -38,9 +39,9 @@ namespace WEB_API.Controllers
         }
 
         // GET: Catalogo/Details/5
-        public ActionResult Details(string id)
+        public async Task<ActionResult>  Details(string id)
         {
-            var model = productos.LeerProducto(id);
+            var model = await productos.LeerProducto(id);
             return View(model);
         }
 
@@ -54,34 +55,36 @@ namespace WEB_API.Controllers
         // POST: Catalogo/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductoCrearModelo model)
+        public async Task<ActionResult> Create(ProductoCrearModelo model)
         {
-            if(ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
 
-            
-            try
-            {
-                // TODO: Add insert logic here
-                productos.crearProducto(new ProductoEntity(){
-                    Codigo = model.Codigo,
-                    Descripcion = model.Descripcion,
-                    Precio = model.Precio,
-                    Categoria = model.Categoria
-                });
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+                try
+                {
+                    // TODO: Add insert logic here
+                    await productos.crearProducto(new ProductoEntity()
+                    {
+                        Codigo = model.Codigo,
+                        Descripcion = model.Descripcion,
+                        Precio = model.Precio,
+                        Categoria = model.Categoria
+                    });
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
             return View();
         }
 
         // GET: Catalogo/Edit/5
-        public ActionResult Edit(string id)
+        public async Task<ActionResult> Edit(string id)
         {
-            var model = productos.LeerProducto(id);
+            var model = await productos.LeerProducto(id);
             ProductoEditarModelo edit = new ProductoEditarModelo();
             edit.Codigo = model.Codigo;
             edit.Descripcion = model.Descripcion;
@@ -93,33 +96,36 @@ namespace WEB_API.Controllers
         // POST: Catalogo/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, ProductoEditarModelo model)
+        public async Task<ActionResult> Edit(string id, ProductoEditarModelo model)
         {
-            if(ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
                 try
-            {
-                productos.actualizarDatos(new ProductoEntity(){
-                    Codigo = model.Codigo,
-                    Descripcion = model.Descripcion,
-                    Categoria = model.Categoria,
-                    Precio = model.Precio
-                });
+                {
+                    await productos.actualizarDatos(new ProductoEntity()
+                    {
+                        Codigo = model.Codigo,
+                        Descripcion = model.Descripcion,
+                        Categoria = model.Categoria,
+                        Precio = model.Precio
+                    });
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
             return View();
         }
 
         // GET: Catalogo/Delete/5
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var producto = productos.LeerProducto(id);
-            return View(new ProductoBorrarModelo(){
+            var producto = await productos.LeerProducto(id);
+            return View(new ProductoBorrarModelo()
+            {
                 Codigo = producto.Codigo,
                 Descripcion = producto.Descripcion
             });
@@ -128,12 +134,12 @@ namespace WEB_API.Controllers
         // POST: Catalogo/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id, IFormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-                productos.borrarProducto(id);
+                await productos.borrarProducto(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

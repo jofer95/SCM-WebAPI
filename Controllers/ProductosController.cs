@@ -18,9 +18,9 @@ namespace WEB_API.Controllers
             productos = new AzureProductosRepository();
         }
         [HttpGet]
-        public IEnumerable<ProductoModel> GetAll()
+        public async Task<IEnumerable<ProductoModel>> GetAll()
         {
-            var model = productos.todosLosProductos()
+            var model = (await productos.todosLosProductos())
             .Select( p => new ProductoModel(){
                     Codigo = p.Codigo,
                     Descripcion = p.Descripcion,
@@ -31,9 +31,9 @@ namespace WEB_API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetTodo")]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var model = productos.LeerProducto(id);
+            var model = await productos.LeerProducto(id);
             return new ObjectResult(model);
         }
     }

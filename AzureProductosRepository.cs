@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage; // Namespace for StorageAccounts
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -13,22 +14,54 @@ namespace WEB_API
             azureConStr = "DefaultEndpointsProtocol=https;AccountName=s100ne2g2;AccountKey=IRr62TEFQHy4pnCbZypRae+rSD3e3kD7qE1WtqgMX7b6X2/UlVfKLGNnDkLDrDH+R/0tyiAJmfhbJZfDICZlUg==";
         }
 
-        public void actualizarDatos(ProductoEntity producto)
+        public async Task<bool> actualizarDatos(ProductoEntity producto)
+        {
+            var table = TablaAzure();
+            var retriveOp = TableOperation.Retrieve<AzProductoEntity>(producto.Codigo.Substring(0, 3), producto.Codigo);
+            var resultado = await table.ExecuteAsync(retriveOp);
+            if (resultado != null)
+            {
+                var p = resultado.Result as AzProductoEntity;
+                p.Precio = producto.Precio.ToString();
+                p.Descripcion = producto.Descripcion;
+                p.Categoria = producto.Categoria;
+
+                var upOp = TableOperation.Replace(p);
+                await table.ExecuteAsync(upOp);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public Task<bool> actualizarImagen(ProductoEntity producto, object Imagen)
         {
             throw new NotImplementedException();
         }
 
-        public void actualizarImagen(ProductoEntity producto, object Imagen)
+        public async Task<bool> borrarProducto(string Codigo)
         {
-            throw new NotImplementedException();
+            var table = TablaAzure();
+            var retriveOp = TableOperation.Retrieve<AzProductoEntity>(Codigo.Substring(0, 3), Codigo);
+            var resultado = await table.ExecuteAsync(retriveOp);
+            if (resultado != null)
+            {
+                var p = resultado.Result as AzProductoEntity;
+                var upOp = TableOperation.Delete(p);
+                await table.ExecuteAsync(upOp);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void borrarProducto(string codigo)
+        private CloudTable TablaAzure()
         {
-            throw new NotImplementedException();
-        }
-
-        private CloudTable TablaAzure(){
             // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(azureConStr);
 
@@ -40,11 +73,11 @@ namespace WEB_API
             return table;
         }
 
-        public void crearProducto(ProductoEntity nuevo)
-        {            
+        public async Task<bool> crearProducto(ProductoEntity nuevo)
+        {
             var table = TablaAzure();
             // Create the table if it doesn't exist.
-            var creada = table.CreateIfNotExistsAsync().Result;
+            var creada = await table.CreateIfNotExistsAsync();
 
             var azEn = new AzProductoEntity(nuevo.Codigo);
             azEn.Categoria = nuevo.Categoria;
@@ -54,31 +87,42 @@ namespace WEB_API
             TableOperation insertOperation = TableOperation.Insert(azEn);
 
             // Execute the insert operation.
-            var x = table.ExecuteAsync(insertOperation).Result;
+            var x = await table.ExecuteAsync(insertOperation);
+            return true;
 
         }
 
-        public ProductoEntity LeerProducto(string codigo)
+        public async Task<ProductoEntity> LeerProducto(string codigo)
         {
+            var table = TablaAzure();
             // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<CustomerEntity>("Smith", "Ben");
+            TableOperation retrieveOperation = TableOperation.Retrieve<AzProductoEntity>(codigo.Substring(0, 3), codigo);
 
             // Execute the retrieve operation.
-            TableResult retrievedResult = table.Execute(retrieveOperation);
+            TableResult retrievedResult = await table.ExecuteAsync(retrieveOperation);
 
             // Print the phone number of the result.
             if (retrievedResult.Result != null)
             {
-                Console.WriteLine(((CustomerEntity)retrievedResult.Result).PhoneNumber);
-            }             
+                var az = retrievedResult.Result as AzProductoEntity;
+                return new ProductoEntity()
+                {
+                    Codigo = az.Codigo,
+                    Descripcion = az.Descripcion,
+                    Categoria = az.Categoria,
+                    Precio = decimal.Parse(az.Precio)
+                };
+                //Console.WriteLine(((AzProductoEntity)retrievedResult.Result).PhoneNumber);
+            }
+            return null;
         }
 
-        public List<ProductoEntity> productosPorCatalogo(string categoria)
+        public async Task<List<ProductoEntity>> productosPorCatalogo(string categoria)
         {
             return new List<ProductoEntity>();
         }
 
-        public List<ProductoEntity> todosLosProductos()
+        public async Task<List<ProductoEntity>> todosLosProductos()
         {
             var table = TablaAzure();
 
@@ -89,14 +133,14 @@ namespace WEB_API
             var token = new TableContinuationToken();
             var list = new List<ProductoEntity>();
             // Print the fields for each customer.
-            foreach (AzProductoEntity entity in table.ExecuteQuerySegmentedAsync(query, token).Result)
+            foreach (AzProductoEntity entity in await table.ExecuteQuerySegmentedAsync(query, token))
             {
                 list.Add(new ProductoEntity()
                 {
                     Descripcion = entity.Descripcion,
                     Categoria = entity.Categoria,
                     Codigo = entity.Codigo,
-                    //Precio = Convert.ToDecimal(entity.Precio)
+                    Precio = Convert.ToDecimal(entity.Precio)
                 });
                 /*Console.WriteLine("{0}, {1}\t{2}\t{3}", entity.PartitionKey, entity.RowKey,
                     entity.Email, entity.PhoneNumber);*/

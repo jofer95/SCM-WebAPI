@@ -8,3 +8,13 @@
 /Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfo.cs
 /Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.dll
 /Users/direccionrednacecyt/Documents/Git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.pdb
+/Users/jorgebz/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.deps.json
+/Users/jorgebz/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.runtimeconfig.json
+/Users/jorgebz/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.runtimeconfig.dev.json
+/Users/jorgebz/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.dll
+/Users/jorgebz/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.pdb
+/Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.csproj.CoreCompileInputs.cache
+/Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfoInputs.cache
+/Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfo.cs
+/Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.dll
+/Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.pdb

@@ -21,6 +21,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Precio)
                 </th>
+                <th>Imagen</th>
             <th></th>
         </tr>
     </thead>
@@ -37,7 +38,15 @@
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
+            @if(!string.IsNullOrWhiteSpace(item.Imagen)){
+                <a asp-controller="Catalogo" asp-action="CambiarImagen" asp-route-id="@item.Codigo" class="thumbnail">
+                    <img src="@item.Imagen" alt="producto"/>
+                </a>
+            }
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Codigo }) |
+                <a asp-controller="Catalogo" asp-action="CambiarImagen" asp-route-id="@item.Codigo"> Cambiar Imagen</a> |
                 @Html.ActionLink("Details", "Details", new { id=item.Codigo }) |
                 @Html.ActionLink("Delete", "Delete", new { id=item.Codigo })
             </td>

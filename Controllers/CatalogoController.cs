@@ -17,14 +17,15 @@ namespace WEB_API.Controllers
         }
         // GET: Catalogo
         public async Task<ActionResult> Index()
-        {
+        {            
             var model = (await productos.todosLosProductos())
             .Select(p => new ProductoModel()
             {
                 Codigo = p.Codigo,
                 Descripcion = p.Descripcion,
                 Categoria = p.Categoria,
-                Precio = p.Precio
+                Precio = p.Precio,
+                Imagen = p.Imagen
             });
             /*var model = new List<ProductoModel>();
             model.Add(new ProductoModel(){
@@ -39,7 +40,7 @@ namespace WEB_API.Controllers
         }
 
         // GET: Catalogo/Details/5
-        public async Task<ActionResult>  Details(string id)
+        public async Task<ActionResult> Details(string id)
         {
             var model = await productos.LeerProducto(id);
             return View(model);
@@ -59,8 +60,6 @@ namespace WEB_API.Controllers
         {
             if (ModelState.IsValid)
             {
-
-
                 try
                 {
                     // TODO: Add insert logic here
@@ -146,6 +145,45 @@ namespace WEB_API.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<ActionResult> CambiarImagen(String id)
+        {
+            var producto = await productos.LeerProducto(id);
+            return View(new ProductoCambiarImagenModelo()
+            {
+                Codigo = producto.Codigo,
+                Descripcion = producto.Descripcion,
+                Imagen = producto.Imagen,
+            });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CambiarImagen(ProductoCambiarImagenModelo model)
+        {
+            var p = await productos.LeerProducto(model.Codigo);
+            if (p == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (model.NuevaImagen.ContentType != "imagen/jpeg")
+            {
+                ModelState.AddModelError("NuevaImagen", "Solo se aceptan archivos jpeg");
+            }
+            if (model.NuevaImagen.Length > 10 * 1024 * 1024)
+            {
+                ModelState.AddModelError("NuevaImagen", "Tamaño de la imagen es muy grande, mas de 10mb");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var res = await productos.actualizarImagen(p, model.NuevaImagen);
+            return RedirectToAction("Index");
         }
     }
 }

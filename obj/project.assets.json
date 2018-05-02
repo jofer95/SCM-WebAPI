@@ -12829,23 +12829,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/direccionrednacecyt/.nuget/packages/": {},
+    "/Users/jorgebz/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/direccionrednacecyt/Documents/Git/WEB-API/WEB-API.csproj",
+      "projectUniqueName": "/Users/jorgebz/Documents/git/WEB-API/WEB-API.csproj",
       "projectName": "WEB-API",
-      "projectPath": "/Users/direccionrednacecyt/Documents/Git/WEB-API/WEB-API.csproj",
-      "packagesPath": "/Users/direccionrednacecyt/.nuget/packages/",
-      "outputPath": "/Users/direccionrednacecyt/Documents/Git/WEB-API/obj/",
+      "projectPath": "/Users/jorgebz/Documents/git/WEB-API/WEB-API.csproj",
+      "packagesPath": "/Users/jorgebz/.nuget/packages/",
+      "outputPath": "/Users/jorgebz/Documents/git/WEB-API/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/direccionrednacecyt/.nuget/NuGet/NuGet.Config"
+        "/Users/jorgebz/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"

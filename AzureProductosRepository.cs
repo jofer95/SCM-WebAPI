@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage; // Namespace for StorageAccounts
+using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace WEB_API
@@ -37,9 +39,47 @@ namespace WEB_API
 
         }
 
-        public Task<bool> actualizarImagen(ProductoEntity producto, object Imagen)
+        public async Task<bool> actualizarImagen(ProductoEntity producto, object Imagen)
         {
-            throw new NotImplementedException();
+            var file = Imagen as IFormFile;
+            if (file == null)
+            {
+                throw new ArgumentException(nameof(Imagen));
+            }
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(azureConStr);
+            // Create a blob client.
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+            // Get a reference to a container named "my-new-container."
+            CloudBlobContainer container = blobClient.GetContainerReference("productos");
+            // Get a reference to a blob named "myblob".
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(producto.Codigo + ".jpeg");
+
+            using (var fileStream = file.OpenReadStream())
+            {
+                await blockBlob.UploadFromStreamAsync(fileStream);
+            }        
+
+            //Obtenemos la url de la foto ingresada al bloob
+            var url = blockBlob.Uri.AbsoluteUri;
+
+            //Ahora actualizamos
+            var table = TablaAzure();
+            var retriveOp = TableOperation.Retrieve<AzProductoEntity>(producto.Codigo.Substring(0, 3), producto.Codigo);
+            var resultado = await table.ExecuteAsync(retriveOp);
+            if (resultado != null)
+            {
+                var p = resultado.Result as AzProductoEntity;
+                p.Imagen = url;
+
+                var upOp = TableOperation.Replace(p);
+                await table.ExecuteAsync(upOp);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<bool> borrarProducto(string Codigo)
@@ -110,7 +150,8 @@ namespace WEB_API
                     Codigo = az.Codigo,
                     Descripcion = az.Descripcion,
                     Categoria = az.Categoria,
-                    Precio = decimal.Parse(az.Precio)
+                    Precio = decimal.Parse(az.Precio),
+                    Imagen = az.Imagen
                 };
                 //Console.WriteLine(((AzProductoEntity)retrievedResult.Result).PhoneNumber);
             }
@@ -140,7 +181,8 @@ namespace WEB_API
                     Descripcion = entity.Descripcion,
                     Categoria = entity.Categoria,
                     Codigo = entity.Codigo,
-                    Precio = Convert.ToDecimal(entity.Precio)
+                    Precio = Convert.ToDecimal(entity.Precio),
+                    Imagen = entity.Imagen
                 });
                 /*Console.WriteLine("{0}, {1}\t{2}\t{3}", entity.PartitionKey, entity.RowKey,
                     entity.Email, entity.PhoneNumber);*/

@@ -1,0 +1,42 @@
+@model WEB_API.Models.ProductoCambiarImagenModelo
+
+@{
+    ViewData["Title"] = "CambiarImagen";
+}
+
+<h2>CambiarImagen</h2>
+
+<h4>ProductoCambiarImagenModelo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="CambiarImagen">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Codigo" class="control-label"></label>
+                @Model.Codigo
+                <span asp-validation-for="Codigo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                @Model.Descripcion
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NuevaImagen" class="control-label"></label>
+                <p>Agrega tu imagen:</p>
+                 <input type="file" name="NuevaImagen" id="NuevaImagen/>
+                <span asp-validation-for="NuevaImagen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" value="@Model.Codigo" name="Codigo" />
+                <input type="submit" value="Camibar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

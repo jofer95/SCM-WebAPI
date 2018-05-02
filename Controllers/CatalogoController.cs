@@ -166,11 +166,11 @@ namespace WEB_API.Controllers
             {
                 return NotFound();
             }
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return View(model);
-            }
-            if (model.NuevaImagen.ContentType != "imagen/jpeg")
+            }*/
+            if (model.NuevaImagen.ContentType != "image/jpeg")
             {
                 ModelState.AddModelError("NuevaImagen", "Solo se aceptan archivos jpeg");
             }

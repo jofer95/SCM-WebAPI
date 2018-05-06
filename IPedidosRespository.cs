@@ -7,11 +7,12 @@ using Model;
 namespace WEB_API{
     public interface IPedidosRepository
     {
-        Task<PedidoModel> LeerPedido(Guid id);
-        Task<Guid> IniciarPedido(PedidoModel nuevoPedido);
+        Task<PedidoModel> LeerPedido(string id);
+        Task<string> IniciarPedido(PedidoModel nuevoPedido);
         Task<bool> AvanzarPedido(PedidoModel pedido, string nuevoEstado);
         Task<bool> CancelarPedido(PedidoModel pedido);
         Task<bool> CompletarPedido(PedidoModel pedido);
+        Task<List<PedidoModel>> LeerPedidosPorFecha(DateTime fecha);
         
     }
 }

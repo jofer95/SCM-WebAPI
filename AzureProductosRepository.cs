@@ -158,10 +158,10 @@ namespace WEB_API
             return null;
         }
 
-        public async Task<List<ProductoEntity>> productosPorCatalogo(string categoria)
+        /*public async Task<List<ProductoEntity>> productosPorCatalogo(string categoria)
         {
             return new List<ProductoEntity>();
-        }
+        }*/
 
         public async Task<List<ProductoEntity>> todosLosProductos()
         {
@@ -193,6 +193,14 @@ namespace WEB_API
 
     public class AzProductoEntity : TableEntity
     {
+        public static string PartitionFromRowID(string id)
+        {
+            if (!string.IsNullOrWhiteSpace(id) || id.Length < 9)
+            {
+                return string.Empty;
+            }
+            return id.Substring(0, 9);
+        }
         public AzProductoEntity()
         {
         }

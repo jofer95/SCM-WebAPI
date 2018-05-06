@@ -7,7 +7,7 @@ namespace WEB_API{
     public interface IProductosRepository
     {
         Task<List<ProductoEntity>> todosLosProductos();
-        Task<List<ProductoEntity>> productosPorCatalogo(string categoria);
+        //Task<List<ProductoEntity>> productosPorCatalogo(string categoria);
         Task<ProductoEntity> LeerProducto(string codigo);
         Task<bool> crearProducto(ProductoEntity nuevo);
         Task<bool> actualizarDatos(ProductoEntity producto);

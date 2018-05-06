@@ -27,15 +27,6 @@ namespace WEB_API.Controllers
                 Precio = p.Precio,
                 Imagen = p.Imagen
             });
-            /*var model = new List<ProductoModel>();
-            model.Add(new ProductoModel(){
-                Descripcion = "producto",
-                Precio = 100
-            });
-            model.Add(new ProductoModel(){
-                Descripcion = "producto 2",
-                Precio = 140
-            });*/
             return View(model);
         }
 

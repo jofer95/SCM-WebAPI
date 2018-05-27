@@ -13,6 +13,7 @@ namespace WEB_API
         private string azureConStr;
         public AzureProductosRepository()
         {
+            
             azureConStr = "DefaultEndpointsProtocol=https;AccountName=s100ne2g2;AccountKey=IRr62TEFQHy4pnCbZypRae+rSD3e3kD7qE1WtqgMX7b6X2/UlVfKLGNnDkLDrDH+R/0tyiAJmfhbJZfDICZlUg==";
         }
 

@@ -25,8 +25,10 @@ namespace WEB_API.Controllers
                     Codigo = p.Codigo,
                     Descripcion = p.Descripcion,
                     Categoria = p.Categoria,
-                    Precio = p.Precio
+                    Precio = p.Precio,
+                    Imagen = p.Imagen
                 });
+                
             return model;
         }
         [HttpGet("{id}", Name = "GetTodoProductos")]

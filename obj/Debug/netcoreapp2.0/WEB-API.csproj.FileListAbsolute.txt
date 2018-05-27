@@ -18,3 +18,14 @@
 /Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfo.cs
 /Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.dll
 /Users/jorgebz/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.pdb
+/Users/jorgebarraza/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.deps.json
+/Users/jorgebarraza/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.runtimeconfig.json
+/Users/jorgebarraza/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.runtimeconfig.dev.json
+/Users/jorgebarraza/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.dll
+/Users/jorgebarraza/Documents/git/WEB-API/bin/Debug/netcoreapp2.0/WEB-API.pdb
+/Users/jorgebarraza/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.csprojResolveAssemblyReference.cache
+/Users/jorgebarraza/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.csproj.CoreCompileInputs.cache
+/Users/jorgebarraza/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfoInputs.cache
+/Users/jorgebarraza/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.AssemblyInfo.cs
+/Users/jorgebarraza/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.dll
+/Users/jorgebarraza/Documents/git/WEB-API/obj/Debug/netcoreapp2.0/WEB-API.pdb

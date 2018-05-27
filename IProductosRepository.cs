@@ -27,6 +27,7 @@ namespace WEB_API{
                 Precio = 100,
                 Imagen = string.Empty
             });
+            
         }
         public void actualizarDatos(ProductoEntity producto)
         {
